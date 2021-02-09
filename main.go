@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/aws/aws-sdk-go/service/configservice"
 	"log"
 	"net/http"
 	"os"
 	"strconv"
 	"time"
+
+	"github.com/aws/aws-sdk-go/service/configservice"
 
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/prometheus/client_golang/prometheus"
@@ -16,9 +17,9 @@ import (
 
 type Compliance struct {
 	ConfigRuleName string
-	Compliance            string
-	CapExceeded bool
-	CappedCount int64
+	Compliance     string
+	CapExceeded    bool
+	CappedCount    int64
 }
 
 var (
@@ -69,7 +70,7 @@ func snapshot() error {
 		labels := prometheus.Labels{
 			"config_rule_name": Compliance.ConfigRuleName,
 			"compliance":       Compliance.Compliance,
-			"cap_exceeded":       strconv.FormatBool(Compliance.CapExceeded),
+			"cap_exceeded":     strconv.FormatBool(Compliance.CapExceeded),
 		}
 		compliance.With(labels).Set(float64(Compliance.CappedCount))
 	}
@@ -110,16 +111,16 @@ func getcompliances() ([]Compliance, error) {
 		var CapExceeded bool
 		var CappedCount int64
 
-		if comp.Compliance.ComplianceContributorCount != nil{
+		if comp.Compliance.ComplianceContributorCount != nil {
 			CapExceeded = *comp.Compliance.ComplianceContributorCount.CapExceeded
 			CappedCount = *comp.Compliance.ComplianceContributorCount.CappedCount
 		}
 
 		Compliances[i] = Compliance{
 			ConfigRuleName: *comp.ConfigRuleName,
-			Compliance:            *comp.Compliance.ComplianceType,
-			CapExceeded:     CapExceeded,
-			CappedCount: CappedCount,
+			Compliance:     *comp.Compliance.ComplianceType,
+			CapExceeded:    CapExceeded,
+			CappedCount:    CappedCount,
 		}
 	}
 
