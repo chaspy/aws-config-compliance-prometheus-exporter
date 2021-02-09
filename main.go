@@ -8,9 +8,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/aws/aws-sdk-go/service/configservice"
-
 	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/configservice"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
