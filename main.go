@@ -66,16 +66,12 @@ func snapshot() error {
 	}
 
 	for _, Compliance := range Compliances {
-		//eolStatus, err := validateEOLStatus(RDSInfo, minimumSupportedInfo)
-		//if err != nil {
-		//	return fmt.Errorf("failed to validate EOL Status: %w", err)
-		//}
 
 		fmt.Printf("compliance %v\n",Compliance)
 
 		labels := prometheus.Labels{
-			"config_rule_name": "hoge",
-			"compliance":       "hoge",
+			"config_rule_name": Compliance.ConfigRuleName,
+			"compliance":       Compliance.Compliance,
 			"capped_count":    "hoge",
 			"cap_exceeded":       "hoge",
 		}
