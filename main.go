@@ -29,7 +29,7 @@ var (
 		Name:      "compliance",
 		Help:      "Number of compliance",
 	},
-		[]string{"config_rule_name", "compliance", "capped_count", "cap_exceeded"},
+		[]string{"config_rule_name", "compliance", "cap_exceeded"},
 	)
 )
 
@@ -72,10 +72,9 @@ func snapshot() error {
 		labels := prometheus.Labels{
 			"config_rule_name": Compliance.ConfigRuleName,
 			"compliance":       Compliance.Compliance,
-			"capped_count":    "hoge",
-			"cap_exceeded":       "hoge",
+			"cap_exceeded":       strconv.FormatBool(Compliance.CapExceeded),
 		}
-		compliance.With(labels).Set(1)
+		compliance.With(labels).Set(float64(Compliance.CappedCount))
 	}
 
 	return nil
@@ -111,11 +110,19 @@ func getcompliances() ([]Compliance, error) {
 
 	Compliances := make([]Compliance, len(result.ComplianceByConfigRules))
 	for i, comp := range result.ComplianceByConfigRules {
+		var CapExceeded bool
+		var CappedCount int64
+
+		if comp.Compliance.ComplianceContributorCount != nil{
+			CapExceeded = *comp.Compliance.ComplianceContributorCount.CapExceeded
+			CappedCount = *comp.Compliance.ComplianceContributorCount.CappedCount
+		}
+
 		Compliances[i] = Compliance{
 			ConfigRuleName: *comp.ConfigRuleName,
 			Compliance:            *comp.Compliance.ComplianceType,
-			//CapExceeded:     *comp.Compliance.ComplianceContributorCount.CapExceeded,
-			//CappedCount: *comp.Compliance.ComplianceContributorCount.CappedCount,
+			CapExceeded:     CapExceeded,
+			CappedCount: CappedCount,
 		}
 	}
 
