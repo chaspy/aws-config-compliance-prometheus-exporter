@@ -66,9 +66,6 @@ func snapshot() error {
 	}
 
 	for _, Compliance := range Compliances {
-
-		fmt.Printf("compliance %v\n",Compliance)
-
 		labels := prometheus.Labels{
 			"config_rule_name": Compliance.ConfigRuleName,
 			"compliance":       Compliance.Compliance,
