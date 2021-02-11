@@ -44,7 +44,7 @@ The following policy must be attached to the AWS role to be executed.
             "Sid": "VisualEditor0",
             "Effect": "Allow",
             "Action": [
-                "configservice:DescribeComplianceByConfigRule",
+                "config:DescribeComplianceByConfigRule",
             ],
             "Resource": "*"
         }
