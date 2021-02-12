@@ -93,6 +93,8 @@ func getInterval() (int, error) {
 }
 
 func getcompliances() ([]Compliance, error) {
+	var result []*configservice.ComplianceByConfigRule
+
 	sess := session.Must(session.NewSessionWithOptions(session.Options{
 		SharedConfigState: session.SharedConfigEnable,
 	}))
@@ -100,13 +102,23 @@ func getcompliances() ([]Compliance, error) {
 	svc := configservice.New(sess)
 	input := &configservice.DescribeComplianceByConfigRuleInput{}
 
-	result, err := svc.DescribeComplianceByConfigRule(input)
-	if err != nil {
-		return nil, fmt.Errorf("failed to describe compliance: %w", err)
+	for {
+		ret, err := svc.DescribeComplianceByConfigRule(input)
+		if err != nil {
+			return nil, fmt.Errorf("failed to describe compliance: %w", err)
+		}
+
+		result = append(result, ret.ComplianceByConfigRules...)
+
+		// pagination
+		if ret.NextToken == nil {
+			break
+		}
+		input.NextToken = ret.NextToken
 	}
 
-	Compliances := make([]Compliance, len(result.ComplianceByConfigRules))
-	for i, comp := range result.ComplianceByConfigRules {
+	Compliances := make([]Compliance, len(result))
+	for i, comp := range result {
 		var CapExceeded bool
 		var CappedCount int64
 
