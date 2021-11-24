@@ -14,7 +14,7 @@ RUN go build \
     -o /go/bin/aws-config-compliance-prometheus-exporter \
     -ldflags '-s -w'
 
-FROM alpine:3.13.1 as runner
+FROM alpine:3.15.0 as runner
 
 COPY --from=builder /go/bin/aws-config-compliance-prometheus-exporter /app/aws-config-compliance-prometheus-exporter
 
