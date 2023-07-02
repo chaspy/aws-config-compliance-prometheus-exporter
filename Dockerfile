@@ -1,4 +1,4 @@
-FROM golang:1.17.5 as builder
+FROM golang:1.17.5 AS builder
 
 WORKDIR /go/src
 
@@ -14,7 +14,7 @@ RUN go build \
     -o /go/bin/aws-config-compliance-prometheus-exporter \
     -ldflags '-s -w'
 
-FROM alpine:3.18.2 as runner
+FROM alpine:3.18.2 AS runner
 
 COPY --from=builder /go/bin/aws-config-compliance-prometheus-exporter /app/aws-config-compliance-prometheus-exporter
 
