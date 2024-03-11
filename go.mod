@@ -3,7 +3,7 @@ module github.com/chaspy/aws-config-compliance-prometheus-exporter
 go 1.20
 
 require (
-	github.com/aws/aws-sdk-go v1.50.35
+	github.com/aws/aws-sdk-go v1.50.36
 	github.com/prometheus/client_golang v1.19.0
 )
 
