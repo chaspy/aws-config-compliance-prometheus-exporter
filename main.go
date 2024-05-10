@@ -45,7 +45,7 @@ func main() {
 
 	// initial retrieval
 	err := snapshot()
-	if err != nil {
+	if err = nil {
 		log.Fatal(err)
 	}
 
