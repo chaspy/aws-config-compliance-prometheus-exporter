@@ -44,8 +44,8 @@ func main() {
 	http.Handle("/metrics", promhttp.Handler())
 
 	// initial retrieval
-	err := snapshot()
-	if err = nil {
+	err = snapshot()
+	if err != nil {
 		log.Fatal(err)
 	}
 
