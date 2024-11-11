@@ -9,7 +9,6 @@ COPY ./main.go  ./
 
 ARG CGO_ENABLED=0
 ARG GOOS=linux
-ARG GOARCH=amd64
 RUN go build \
     -o /go/bin/aws-config-compliance-prometheus-exporter \
     -ldflags '-s -w'
